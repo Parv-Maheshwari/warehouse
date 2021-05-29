@@ -1,0 +1,5 @@
+int64 id
+int64 shelf_no
+int64 picking_st_no
+geometry_msgs/Point shelf_pos
+geometry_msgs/Point picking_station_pos

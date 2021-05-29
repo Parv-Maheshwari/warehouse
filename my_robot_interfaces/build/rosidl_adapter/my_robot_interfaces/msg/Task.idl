@@ -1,0 +1,21 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from my_robot_interfaces/msg/Task.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/Point.idl"
+
+module my_robot_interfaces {
+  module msg {
+    struct Task {
+      int64 id;
+
+      int64 shelf_no;
+
+      int64 picking_st_no;
+
+      geometry_msgs::msg::Point shelf_pos;
+
+      geometry_msgs::msg::Point picking_station_pos;
+    };
+  };
+};
