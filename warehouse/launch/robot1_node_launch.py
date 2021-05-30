@@ -5,12 +5,12 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='warehouse',
-            executable='robots',
-            name='robot2',
+            executable='robots_node',
+            name='robot1node',
             output='screen',
             emulate_tty=True,
             parameters=[
-                {'my_parameter': '2'}
+                {'my_parameter': '1'}
             ]
         ),
     ])

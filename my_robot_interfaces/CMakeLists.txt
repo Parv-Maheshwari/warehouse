@@ -25,6 +25,8 @@ find_package(geometry_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Robot.msg"
   "msg/Task.msg"
+  "msg/PosTask.msg"
+  "msg/ListTask.msg"
   DEPENDENCIES geometry_msgs
  )
 
