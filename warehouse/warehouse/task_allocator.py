@@ -37,38 +37,45 @@ class task_allocator(Node):
         self.robot_distance_bid = [None] * self.robot_no
         self.robot_time_bid = [None] * self.robot_no
         self.robot_total_bid = [None] * self.robot_no
-        self.alpha = 1
+        self.alpha = 0
 
     def listener_callback(self,msg):
         #########################################
 
-        # for i in range(self.robot_no):
-        #     self.robot_distance_bid[i] = ass_cost(msg,self.tasks[i][-1])
+        for i in range(self.robot_no):
+            self.robot_distance_bid[i] = 0
+            self.robot_temp_tasks[i] = 0
+            if len(self.tasks[i])>0:
+                self.robot_distance_bid[i] = ass_cost(msg,self.tasks[i][-1])
 
-        #     for j in range(len(self.tasks[i])-1):
-        #         self.robot_temp_tasks[i] += own_cost(self.tasks[i][j]) + ass_cost(self.tasks[i][j], self.tasks[i][j+1])
-        #     self.robot_temp_tasks[i] += own_cost(self.tasks[i][-1])
+                for j in range(len(self.tasks[i])-1):
+                    self.robot_temp_tasks[i] += own_cost(self.tasks[i][j]) + ass_cost(self.tasks[i][j], self.tasks[i][j+1])
+                self.robot_temp_tasks[i] += own_cost(self.tasks[i][-1])
+            print(f'robot {i} original current cost is : {self.robot_temp_tasks[i]}.')
 
-        # for i in range(self.robot_no):
-        #     self.robot_temp_time_bid = copy.deepcopy(self.robot_temp_tasks)
-        #     self.robot_temp_time_bid[i] += own_cost(msg) + ass_cost(msg,self.tasks[i][-1])
-        #     self.robot_time_bid[i] = max(self.robot_temp_time_bid)
-        #     self.robot_total_bid[i] = self.alpha * self.robot_distance_bid[i] + (1-self.alpha) * self.robot_time_bid[i]
-        #     print(f'robot {i} bids : {self.robot_total_bid[i]}.' )
+        for i in range(self.robot_no):
+            self.robot_temp_time_bid = copy.deepcopy(self.robot_temp_tasks)
+            self.robot_temp_time_bid[i] += own_cost(msg)
+            if len(self.tasks[i])>0:
+                self.robot_temp_time_bid[i] += ass_cost(msg,self.tasks[i][-1])
+            
+            self.robot_time_bid[i] = max(self.robot_temp_time_bid)
+            self.robot_total_bid[i] = self.alpha * self.robot_distance_bid[i] + (1-self.alpha) * self.robot_time_bid[i]
+            print(f'robot {i} bids : {self.robot_total_bid[i]}.' )
         
-        # min_bid = min(self.robot_total_bid)
-        # robot_chosen = self.robot_total_bid.index(min_bid)
-        # print(f'robot {robot_chosen} is chosen.' )
+        min_bid = min(self.robot_total_bid)
+        robot_chosen = self.robot_total_bid.index(min_bid)
+        print(f'robot {robot_chosen} is chosen.' )
 
 
 
         ######################################### 
 
         #################################### Working Comment out the below lines for simple task allocation
-        if msg.id%2 == 0:
-            robot_chosen = 0
-        else:
-            robot_chosen = 1
+        # if msg.id%2 == 0:
+        #     robot_chosen = 0
+        # else:
+        #     robot_chosen = 1
         
         # print(f'robot {robot_chosen} has tasks of length : {len(self.tasks[robot_chosen])}' )
         # print(f'robot {not robot_chosen} has tasks of length : {len(self.tasks[not robot_chosen])}' )
@@ -87,7 +94,7 @@ class task_allocator(Node):
 
     def listener_callback_cur_state_robot0(self,msg):
         # self.get_logger().info(f'Hello. Robot has to go from {msg.shelf_no} to {msg.picking_st_no}')
-        self.get_logger().info(f'Publishing: {len(msg.tasks)}')
+        # self.get_logger().info(f'Publishing: {len(msg.tasks)}')
         # print(len(msg.tasks))
         self.tasks[0] = msg.tasks
     
