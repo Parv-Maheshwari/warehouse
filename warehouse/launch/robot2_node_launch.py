@@ -6,11 +6,11 @@ def generate_launch_description():
         Node(
             package='warehouse',
             executable='robots_node',
-            name='robot1node',
+            name='robot2node',
             output='screen',
             emulate_tty=True,
             parameters=[
-                {'my_parameter': '0'}
+                {'my_parameter': '1'}
             ]
         ),
     ])

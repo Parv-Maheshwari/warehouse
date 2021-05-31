@@ -31,8 +31,8 @@ class robot(Node):
         # self.get_logger().info(f'Hello. Robot has to go from {msg.shelf_no} to {msg.picking_st_no}')
         msg1 = PosTask()
         msg1.rinfo = msg
-        print(type(self.tasks))
-        print(type(msg1.tasks))
+        # print(type(self.tasks))
+        # print(type(msg1.tasks))
         msg1.tasks = self.tasks
         
         self.publisher_.publish(msg1)
@@ -41,6 +41,9 @@ class robot(Node):
     def listener_callback_tasks(self,msg):
         # self.get_logger().info(f'Hello. Robot has to go from {msg.shelf_no} to {msg.picking_st_no}')
         self.tasks = msg.tasks
+        if len(self.tasks)%5 == 0:
+            self.tasks =self.tasks[4:]
+        self.get_logger().info(f'Publishing at robot {self.my_param}: {len(msg.tasks)}')
 
 
 def main():

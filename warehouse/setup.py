@@ -26,7 +26,8 @@ setup(
         'console_scripts': [
             'robots = warehouse.robots_function:main',
             'tasks = warehouse.tasks:main',
-            'robots_node = warehouse.robot_nodes:main'
+            'robots_node = warehouse.robot_nodes:main',
+            'tasks_allocator = warehouse.task_allocator:main'
         ],
     },
 )

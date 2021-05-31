@@ -5,8 +5,6 @@ from rclpy.node import Node
 # from rcl_interfaces.msg import ParameterType
 from std_msgs.msg import String
 from my_robot_interfaces.msg import Robot
-# from my_robot_interfaces.msg import Task
-
 
 class robot(Node):
     def __init__(self):

@@ -10,7 +10,7 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
             parameters=[
-                {'my_parameter': '1'}
+                {'my_parameter': '0'}
             ]
         ),
     ])
