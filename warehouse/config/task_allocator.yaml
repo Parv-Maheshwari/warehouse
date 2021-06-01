@@ -1,4 +1,4 @@
-task_allocator:
+task_allocator: ##### If this name changes, changes have to be done in task_allocator_launch.py, robot_node_launch.py and robots_launch.py
   ros__parameters:
     robot_no : 2
     alpha : 0.5
