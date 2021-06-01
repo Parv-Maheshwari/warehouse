@@ -16,20 +16,27 @@ def own_cost(task1):
 class task_allocator(Node):
     def __init__(self):
         super().__init__('task_allocator_node')
-        self.robot_no = 2
+        self.declare_parameters(
+            namespace='',
+            parameters=[
+                ('robot_no', None),
+                ('alpha', None),
+            ])
+        self.robot_no = self.get_parameter('robot_no').get_parameter_value().integer_value
+        print(self.get_parameter('alpha').get_parameter_value())
+        self.alpha = self.get_parameter('alpha').get_parameter_value().double_value
+        # self.robot_no = 2
         self.publisher = [None] * self.robot_no
-        self.subscription_cur_state = [None] * self.robot_no
+        # self.subscription_cur_state = [None] * self.robot_no
         self.tasks = [None] * self.robot_no
         # self.publisher_ = self.create_publisher(Task, 'tasks', 10)
         for i in range(self.robot_no):
             self.publisher[i] = self.create_publisher(ListTask, f'new_tasks{i}', 10)
             self.tasks[i] = ListTask().tasks
-            print(len(self.tasks[i]))
-
+            # self.subscription_cur_state[i] = self.create_subscription(PosTask,f'cur_state{i}',self.listener_callback_cur_state_robot,10)
 
         self.subscription = self.create_subscription(Task,'tasks',self.listener_callback,10)
-        self.subscription_cur_state[0] = self.create_subscription(PosTask,'cur_state0',self.listener_callback_cur_state_robot0,10)
-        self.subscription_cur_state[1] = self.create_subscription(PosTask,'cur_state1',self.listener_callback_cur_state_robot1,10)
+        self.subscription_cur_state = self.create_subscription(PosTask,'cur_state',self.listener_callback_cur_state_robot,10)
 
         self.subscription
         self.robot_temp_tasks = [None] * self.robot_no
@@ -37,7 +44,7 @@ class task_allocator(Node):
         self.robot_distance_bid = [None] * self.robot_no
         self.robot_time_bid = [None] * self.robot_no
         self.robot_total_bid = [None] * self.robot_no
-        self.alpha = 0
+        
 
     def listener_callback(self,msg):
         #########################################
@@ -92,17 +99,17 @@ class task_allocator(Node):
         msg1.tasks = self.tasks[robot_chosen]
         self.publisher[robot_chosen].publish(msg1)
 
-    def listener_callback_cur_state_robot0(self,msg):
+    def listener_callback_cur_state_robot(self,msg):
         # self.get_logger().info(f'Hello. Robot has to go from {msg.shelf_no} to {msg.picking_st_no}')
-        # self.get_logger().info(f'Publishing: {len(msg.tasks)}')
+        self.get_logger().info(f'Received from robot{msg.rno}: {len(msg.tasks)}')
         # print(len(msg.tasks))
-        self.tasks[0] = msg.tasks
+        self.tasks[msg.rno] = msg.tasks
     
-    def listener_callback_cur_state_robot1(self,msg):
-        # self.get_logger().info(f'Hello. Robot has to go from {msg.shelf_no} to {msg.picking_st_no}')
-        self.get_logger().info(f'Publishing: {len(msg.tasks)}')
-        # print(len(msg.tasks))
-        self.tasks[1] = msg.tasks
+    # def listener_callback_cur_state_robot1(self,msg):
+    #     # self.get_logger().info(f'Hello. Robot has to go from {msg.shelf_no} to {msg.picking_st_no}')
+    #     self.get_logger().info(f'Publishing: {len(msg.tasks)}')
+    #     # print(len(msg.tasks))
+    #     self.tasks[1] = msg.tasks
 
 def main():
     rclpy.init()

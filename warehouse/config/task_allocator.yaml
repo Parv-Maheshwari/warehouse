@@ -1,0 +1,4 @@
+task_allocator:
+  ros__parameters:
+    robot_no : 2
+    alpha : 0.5
