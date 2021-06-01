@@ -23,20 +23,19 @@ class task_allocator(Node):
                 ('alpha', None),
             ])
         self.robot_no = self.get_parameter('robot_no').get_parameter_value().integer_value
-        print(self.get_parameter('alpha').get_parameter_value())
         self.alpha = self.get_parameter('alpha').get_parameter_value().double_value
-        # self.robot_no = 2
-        self.publisher = [None] * self.robot_no
+        # self.publisher = [None] * self.robot_no
         # self.subscription_cur_state = [None] * self.robot_no
         self.tasks = [None] * self.robot_no
         # self.publisher_ = self.create_publisher(Task, 'tasks', 10)
         for i in range(self.robot_no):
-            self.publisher[i] = self.create_publisher(ListTask, f'new_tasks{i}', 10)
+            # self.publisher[i] = self.create_publisher(ListTask, f'new_tasks{i}', 10)
             self.tasks[i] = ListTask().tasks
             # self.subscription_cur_state[i] = self.create_subscription(PosTask,f'cur_state{i}',self.listener_callback_cur_state_robot,10)
 
         self.subscription = self.create_subscription(Task,'tasks',self.listener_callback,10)
         self.subscription_cur_state = self.create_subscription(PosTask,'cur_state',self.listener_callback_cur_state_robot,10)
+        self.publisher = self.create_publisher(ListTask, 'new_tasks', self.robot_no*5) #buffer size = robot_no*5
 
         self.subscription
         self.robot_temp_tasks = [None] * self.robot_no
@@ -96,8 +95,9 @@ class task_allocator(Node):
         #     print(f'robot {i} has tasks of length : {len(self.tasks[i])}' )
         
         msg1 = ListTask()
+        msg1.rno = robot_chosen
         msg1.tasks = self.tasks[robot_chosen]
-        self.publisher[robot_chosen].publish(msg1)
+        self.publisher.publish(msg1)
 
     def listener_callback_cur_state_robot(self,msg):
         # self.get_logger().info(f'Hello. Robot has to go from {msg.shelf_no} to {msg.picking_st_no}')

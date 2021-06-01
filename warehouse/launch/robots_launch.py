@@ -11,12 +11,9 @@ def generate_launch_description():
     'config',
     'task_allocator.yaml'
     )
-    print(config)
     with open(config) as file:
         documents = yaml.full_load(file)
-        print(documents)
         robot_no = documents['task_allocator']['ros__parameters']['robot_no']
-        print(robot_no)
     robots_node =[]
     for i in range(robot_no):
         robots_node.append(
