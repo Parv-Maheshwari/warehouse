@@ -3,42 +3,7 @@ import pytest
 import os
 from ament_index_python.packages import get_package_share_directory
 import yaml
-# config1 = os.path.join(
-# get_package_share_directory('warehouse'),
-# 'config',
-# 'task_allocator.yaml'
-# )
-# config2 = os.path.join(
-# get_package_share_directory('warehouse'),
-# 'config',
-# 'tasks.yaml'
-# )
 
-# with open(config1) as file:
-#     documents = yaml.full_load(file)
-#     robot_no = documents['task_allocator']['ros__parameters']['robot_no']
-#     alpha = documents['task_allocator']['ros__parameters']['alpha']
-
-# with open(config2) as file:
-#     documents = yaml.full_load(file)
-#     no_of_shelf = documents['task']['ros__parameters']['no_of_shelf']
-#     shelf_init_pos_row = documents['task']['ros__parameters']['shelf_init_pos_row']
-#     shelf_init_pos_col = documents['task']['ros__parameters']['shelf_init_pos_col']
-#     no_of_picking_stations = documents['task']['ros__parameters']['no_of_picking_stations']
-#     pos_of_picking_stations_row = documents['task']['ros__parameters']['pos_of_picking_stations_row']
-#     pos_of_picking_stations_col = documents['task']['ros__parameters']['pos_of_picking_stations_col']
-
-
-
-# class NamesTestCase(unittest.TestCase):
-
-#     def test_first_last_name(self):
-#         result = formatted_name("pete", "seeger")
-#         self.assertEqual(result, "Pete Seeger")
-
-#     def test_first_last_middle_name(self):
-#         result = formatted_name("raymond", "reddington", "red")
-#         self.assertEqual(result, "Raymond Red Reddington")
 class TestClass:
     def test_params(self):
         # x = "this"
