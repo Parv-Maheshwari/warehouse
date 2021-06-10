@@ -1,3 +1,5 @@
+# docker run -it -v /home/drago:/home/drago --name=test1 warehouse:latest bash
+# docker exec -it test1 bash 
 FROM ros:foxy
 # Setup all the keys and install packages which need root access.
 USER root
